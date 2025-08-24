@@ -1,2 +1,2 @@
 # maintenance
-File Index.hmtl maintenance 
+Website Maintenance Page html template 
