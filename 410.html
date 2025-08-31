@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Pagina di manutenzione: torniamo subito online." />
+  <title>Error 410</title>
+  <style>
+    :root{
+      --bg-1:#0d1117; --bg-2:#111827; --card:#0f172a; --text:#e5e7eb; --muted:#9ca3af;
+      --brand:#60a5fa; --accent:#34d399; --warning:#fbbf24; --shadow:0 20px 40px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box} html,body{height:100%} body{
+      margin:0; font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      color:var(--text); background:#0b1020; overflow-x:hidden;
+    }
+    /* Animated gradient background */
+    .bg{
+      position:fixed; inset:-40vmax; z-index:-2; filter:saturate(1.2) blur(60px);
+      background: radial-gradient(40% 30% at 20% 20%, #1e3a8a55, transparent 60%),
+                  radial-gradient(30% 40% at 80% 30%, #05966966, transparent 60%),
+                  radial-gradient(30% 30% at 50% 80%, #2563eb55, transparent 60%);
+      animation:bgShift 20s ease-in-out infinite alternate;
+    }
+    @keyframes bgShift{
+      0%  {transform:translate3d(-4%, -2%, 0) rotate(-3deg) scale(1.05)}
+      100%{transform:translate3d(4%, 2%, 0)  rotate(3deg)  scale(1.05)}
+    }
+    /* Floating particles */
+    .dots::before,.dots::after{
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
+      background:
+        radial-gradient(3px 3px at 12% 18%, #60a5fa66 70%, transparent 72%) repeat,
+        radial-gradient(2px 2px at 82% 28%, #34d39966 70%, transparent 72%) repeat,
+        radial-gradient(2px 2px at 32% 78%, #fbbf2466 70%, transparent 72%) repeat;
+      background-size: 800px 800px, 700px 700px, 900px 900px;
+      animation:fDots 40s linear infinite;
+      mask-image: radial-gradient(60% 60% at 50% 50%, black 60%, transparent 100%);
+    }
+    .dots::after{ animation-direction:reverse; opacity:.6; }
+    @keyframes fDots{ to{ background-position: 800px 800px, -700px -700px, 900px 900px; } }
+
+    .wrap{
+      min-height:100%;
+      display:grid; place-items:center; padding:6vh 5vw;
+    }
+    .card{
+      width:min(960px, 100%); background:linear-gradient(180deg, #0b1224 0%, #0a0f1f 100%);
+      border:1px solid #1f2937; border-radius:20px; box-shadow:var(--shadow); overflow:hidden;
+    }
+    .header{
+      display:flex; align-items:center; gap:12px; padding:14px 18px;
+      background:linear-gradient(90deg, #0f172a 0%, #0b1224 60%); border-bottom:1px solid #1f2937;
+    }
+    .brandmark{
+      width:34px;height:34px;border-radius:10px;
+      background:conic-gradient(from 200deg, var(--brand), var(--accent), var(--brand));
+      box-shadow:0 0 0 3px #0b1224 inset, 0 0 30px #60a5fa33;
+    }
+    .headtxt{ font-weight:600; letter-spacing:.2px }
+    .content{
+      display:grid; gap:28px; padding:28px; align-items:center;
+      grid-template-columns: 1.05fr 1fr;
+    }
+    @media (max-width:900px){ .content{ grid-template-columns: 1fr; } }
+
+    /* Illustration container */
+    .illu{
+      aspect-ratio: 4/3; width:100%; display:grid; place-items:center; position:relative;
+      background: radial-gradient(120% 90% at 50% 100%, #1f293722 0%, transparent 60%);
+      border-radius:16px; border:1px solid #1f2937;
+    }
+    /* Inline SVG styling & animations */
+    .gear{ transform-origin: 50% 50%; animation:spin 10s linear infinite; }
+    .gear.small{ animation-duration: 8s; animation-direction:reverse; }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+    .pulse{ animation:pulse 1.8s ease-in-out infinite; transform-origin:center; }
+    @keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+
+    .badge{
+      position:absolute; bottom:14px; left:14px; padding:6px 10px; font-size:.8rem; border-radius:999px;
+      background:#0c1428; border:1px solid #1f2937; color:var(--muted);
+      box-shadow:0 8px 16px rgba(0,0,0,.25);
+    }
+    .copy {margin-left: 10%;}
+    .copy h1{ margin:0 0 6px; font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.4rem); }
+    .copy p{ margin:.35rem 0; color:var(--muted) }
+    .status{
+      display:inline-flex; align-items:center; gap:.5rem; background:#0c1428; color:#cbd5e1;
+      padding:6px 10px; border-radius:10px; border:1px solid #1f2937;
+    }
+    .dot{ width:9px; height:9px; border-radius:50%; background:var(--warning); box-shadow:0 0 0 0 rgba(251,191,36,.6); animation:ping 1.2s infinite; }
+    @keyframes ping{ 0%{ box-shadow:0 0 0 0 rgba(251,191,36,.6) } 70%{ box-shadow:0 0 0 8px rgba(251,191,36,0) } 100%{ box-shadow:0 0 0 0 rgba(251,191,36,0) } }
+
+    .progress{
+      height:10px; width:100%; background:#0c1428; border:1px solid #1f2937; border-radius:999px; overflow:hidden; margin:16px 0 6px;
+    }
+    .bar{ height:100%; width:40%; background:linear-gradient(90deg, var(--brand), var(--accent)); border-radius:inherit; animation:load 2.6s ease-in-out infinite; }
+    @keyframes load{ 0%{ transform:translateX(-60%) } 50%{ transform:translateX(20%) } 100%{ transform:translateX(120%) } }
+
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .btn{
+      appearance:none; border:1px solid #273245; padding:10px 14px; border-radius:12px; cursor:pointer;
+      background:#0c1428; color:#e5e7eb; font-weight:600; letter-spacing:.2px;
+      transition:transform .1s ease, border-color .2s ease, background .2s ease;
+    }
+    .btn:hover{ transform:translateY(-1px); border-color:#34507a }
+    .btn.primary{ background:linear-gradient(180deg, #1f2a44, #182138); border-color:#2a3a58 }
+    .btn .sec{ opacity:.6; font-weight:500 }
+    .note{ font-size:.85rem; color:#94a3b8; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .bg,.dots::before,.dots::after,.gear,.pulse,.bar{ animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="dots" aria-hidden="true"></div>
+
+  <main class="wrap" role="main">
+    <section class="card" aria-labelledby="title">
+      <header class="header">
+        <div class="brandmark" aria-hidden="true"></div>
+        <div>
+          <div class="headtxt">Error 410</div>
+          <div class="note">Risorsa rimossa (Gone). <br/>La pagina richiesta non è più disponibile. <br/>È stata rimossa in modo permanente o il percorso non è più valido.</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- I M A G E  /  I L L U S T R A Z I O N E -->
+        <figure class="illu" aria-hidden="true">
+          <!-- Inline SVG (immagine auto‑contenuta) -->
+          <svg viewBox="0 0 600 450" width="92%" role="img" aria-label="Illustrazione manutenzione">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#1f8cff"/><stop offset="1" stop-color="#34d399"/>
+              </linearGradient>
+            </defs>
+            <!-- monitor -->
+            <rect x="90" y="80" rx="14" ry="14" width="360" height="220" fill="#0f172a" stroke="#22314a" stroke-width="2"/>
+            <rect x="110" y="100" width="320" height="160" rx="10" fill="#0b1326" stroke="#1d2a43"/>
+            <rect x="110" y="100" width="320" height="22" fill="#0f1c35"/>
+            <circle cx="124" cy="111" r="4" fill="#ef4444"/>
+            <circle cx="138" cy="111" r="4" fill="#f59e0b"/>
+            <circle cx="152" cy="111" r="4" fill="#10b981"/>
+            <!-- progress inside monitor -->
+            <rect x="150" y="170" width="240" height="16" rx="8" fill="#0c1428" stroke="#1f2b48"/>
+            <rect class="pulse" x="150" y="170" width="110" height="16" rx="8" fill="url(#g1)"/>
+
+            <!-- gears -->
+            <g transform="translate(460,255)">
+              <g class="gear" opacity=".9">
+                <circle r="36" fill="#12203a"/>
+                <g fill="#1b2b4a">
+                  <rect x="-6" y="-54" width="12" height="20" rx="3"/>
+                  <rect x="-6" y="34" width="12" height="20" rx="3"/>
+                  <rect x="-54" y="-6" width="20" height="12" rx="3"/>
+                  <rect x="34" y="-6" width="20" height="12" rx="3"/>
+                  <rect x="-40" y="-40" width="16" height="12" rx="3" transform="rotate(45)"/>
+                  <rect x="24" y="-40" width="16" height="12" rx="3" transform="rotate(45)"/>
+                  <rect x="-40" y="24" width="16" height="12" rx="3" transform="rotate(45)"/>
+                  <rect x="24" y="24" width="16" height="12" rx="3" transform="rotate(45)"/>
+                </g>
+                <circle r="12" fill="#0b1428" stroke="#2a3a58"/>
+              </g>
+            </g>
+            <g transform="translate(520,305) scale(.78)">
+              <g class="gear small" opacity=".9">
+                <circle r="28" fill="#102038"/>
+                <g fill="#1b2b4a">
+                  <rect x="-5" y="-44" width="10" height="16" rx="3"/>
+                  <rect x="-5" y="28" width="10" height="16" rx="3"/>
+                  <rect x="-44" y="-5" width="16" height="10" rx="3"/>
+                  <rect x="28" y="-5" width="16" height="10" rx="3"/>
+                  <rect x="-32" y="-32" width="12" height="10" rx="3" transform="rotate(45)"/>
+                  <rect x="20" y="-32" width="12" height="10" rx="3" transform="rotate(45)"/>
+                  <rect x="-32" y="20" width="12" height="10" rx="3" transform="rotate(45)"/>
+                  <rect x="20" y="20" width="12" height="10" rx="3" transform="rotate(45)"/>
+                </g>
+                <circle r="9" fill="#0b1428" stroke="#2a3a58"/>
+              </g>
+            </g>
+
+            <!-- floor -->
+            <ellipse cx="300" cy="355" rx="210" ry="28" fill="#0b1428" opacity=".8"/>
+            <!-- sign -->
+            <g transform="translate(300,70)">
+              <rect x="-70" y="0" width="140" height="24" rx="12" fill="#0c1428" stroke="#22314a"/>
+              <text x="0" y="16" font-family="ui-sans-serif,system-ui" font-size="12" text-anchor="middle" fill="#93c5fd">
+                Modalità manutenzione
+              </text>
+            </g>
+          </svg>
+        <span class="badge"> #maintenance</span>
+        </figure>
+
+        <!-- C O P Y -->
+        <div class="copy">
+          <h1 id="title">Error 410</h1>
+          <p> La pagina richiesta non è più disponibile. <br/>È stata rimossa in modo permanente o il percorso non è più valido</p>
+          <p class="status" aria-live="polite"><span class="dot" aria-hidden="true"></span> Stato: <strong>Risorsa rimossa (Gone)</strong></p>
+
+          <div class="progress" aria-hidden="true"><div class="bar"></div></div>
+         
+
+          <div class="actions">
+          
+            <button class="btn" id="contactBtn">Contattaci <span class="sec">/ supporto</span></button>
+          </div>
+
+          <p class="note">Se vedi questa pagina per molto tempo, svuota la cache o contatta l’assistenza.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Auto-reload con countdown (modifica seconds per cambiare intervallo)
+    (function(){
+      const seconds = 1800000; // <-- cambia a piacere (es. 60)
+      const countEl = document.getElementById('count');
+      const btn = document.getElementById('refreshBtn');
+      let left = seconds;
+      countEl.textContent = left;
+
+      const tick = () => {
+        left -= 1;
+        if (left <= 0) { location.reload(); return; }
+        countEl.textContent = left;
+      };
+      const it = setInterval(tick, 1000);
+      btn.addEventListener('click', ()=> location.reload());
+
+      // “Contattaci”: personalizza qui il link
+      document.getElementById('contactBtn').addEventListener('click', ()=>{
+        window.location.href = 'mailto:momentigommosi@gmail.com?subject=Supporto%20-%20Manutenzione';
+      });
+    })();
+  </script>
+</body>
+</html>
